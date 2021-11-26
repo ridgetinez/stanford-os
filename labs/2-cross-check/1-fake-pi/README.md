@@ -6,7 +6,7 @@ This is mostly just the code from the pre-lab, split into different files.
       gets the same numbers.
 
    - `fake-driver.c`: this just has the `main` from the prelab.
-   -  `fake-pi.h` some simple definitions.      
+   - `fake-pi.h` some simple definitions.      
    - `fake-put-get.c`: your fake PUT32 and GET32 implementation.  It looks basically
      like the prelab, except you should handle all addresses.
 

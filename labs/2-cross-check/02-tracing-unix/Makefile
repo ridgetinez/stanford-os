@@ -4,7 +4,7 @@
 
 NAME = trace-foo
 # this is passed to ld
-TRACE_FLAGS = --wrap=foo
+# TRACE_FLAGS = --wrap=foo
 OBJS    := $(NAME).o foo.o
 
 CC = gcc

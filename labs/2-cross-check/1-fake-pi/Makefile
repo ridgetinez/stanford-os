@@ -8,7 +8,7 @@ MAKEFLAGS += --no-print-directory
 LPP = $(CS140E_2021_PATH)
 GPIO         := $(LPP)/labs/1-gpio/code/gpio.c
 
-SRC :=  fake-put-get.c fake-random.c pi-random.c  fake-driver.c
+SRC :=  fake-put-get.c fake-random.c pi-random.c  fake-driver.c tape.c
 OBJS := $(patsubst %.c, %.o, $(SRC)) gpio.o
 
 ifndef CS140E_2021_PATH

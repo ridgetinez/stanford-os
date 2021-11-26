@@ -1,6 +1,7 @@
 // trivial little fake r/pi system that will allow you to debug your
 // gpio.c code. 
 #include "fake-pi.h"
+#include "tape.h"
 
 // main pi-specific thing is a tiny model of device
 // memory: for each device address, what happens when you
@@ -27,8 +28,7 @@ void PUT32(uint32_t addr, uint32_t v) {
     switch(addr) {
     case gpio_lev0:  panic("illegal write to gpio_lev0!\n");
     default: 
-        output("store (addr,v) for later lookup\n");
-        unimplemented();
+        tape_write(addr, v);
     }
     trace("PUT32:%x:%x\n", addr,v);
 }
@@ -57,7 +57,7 @@ uint32_t GET32(uint32_t addr) {
     case gpio_lev0:  v = fake_random();  break;
     default: 
         // return value of last write, or random if this is the first read.
-        unimplemented();
+        v = tape_get(addr);
         break;
     }
     trace("GET32:%x:%x\n", addr,v);

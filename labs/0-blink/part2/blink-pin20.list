@@ -1,0 +1,41 @@
+
+blink-pin20.o:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+00000000 <loop-0x10>:
+   0:	e59f0034 	ldr	r0, [pc, #52]	; 3c <wait2+0xc>
+   4:	e3a01001 	mov	r1, #1, 0
+   8:	e5801000 	str	r1, [r0]
+   c:	e3a01601 	mov	r1, #1048576	; 0x100000
+
+00000010 <loop>:
+  10:	e59f0028 	ldr	r0, [pc, #40]	; 40 <wait2+0x10>
+  14:	e5801000 	str	r1, [r0]
+  18:	e3a0287f 	mov	r2, #8323072	; 0x7f0000
+
+0000001c <wait1>:
+  1c:	e2522001 	subs	r2, r2, #1, 0
+  20:	1afffffd 	bne	1c <wait1>
+  24:	e59f0018 	ldr	r0, [pc, #24]	; 44 <wait2+0x14>
+  28:	e5801000 	str	r1, [r0]
+  2c:	e3a0283f 	mov	r2, #4128768	; 0x3f0000
+
+00000030 <wait2>:
+  30:	e2522001 	subs	r2, r2, #1, 0
+  34:	1afffffd 	bne	30 <wait2>
+  38:	eafffff4 	b	10 <loop>
+  3c:	20200008 	eorcs	r0, r0, r8
+  40:	2020001c 	eorcs	r0, r0, ip, lsl r0
+  44:	20200028 	eorcs	r0, r0, r8, lsr #32
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00001141 	andeq	r1, r0, r1, asr #2
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	00000007 	andeq	r0, r0, r7
+  10:	Address 0x0000000000000010 is out of bounds.
+

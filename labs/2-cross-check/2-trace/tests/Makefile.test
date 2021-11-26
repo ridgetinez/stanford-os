@@ -37,17 +37,17 @@ all: $(TEST_RUN) # $(TEST_CHECK)
 
 %.run: %
 	@echo "\n-------------------[about to run <./$*]-----------------------";
-	pi-install ./$* 
+	pi-install /dev/cu.usbserial-0001 ./$* 
 	@echo "-------------------[done running <./$*>]------------------------------------";
 
 # note: this will fail if output does not contain a trace.
 # we pull everything into .out so that it's easier to debug.
 %.emit: %
-	pi-install ./$* 2>&1 > /dev/null | grep $(GREP_STR) > ./$<.out
+	pi-install /dev/cu.usbserial-0001 ./$* 2>&1 > /dev/null | grep $(GREP_STR) > ./$<.out
 
 %.check: % 
 	@echo -n "checking <$*>: ";
-	@pi-install ./$* 2>&1 > /dev/null | grep  $(GREP_STR) > ./$<.test
+	@pi-install /dev/cu.usbserial-0001 ./$* 2>&1 > /dev/null | grep  $(GREP_STR) > ./$<.test
 	@diff ./$<.out ./$<.test
 	@echo " Success: <$*>!";
 	@rm ./$*.test

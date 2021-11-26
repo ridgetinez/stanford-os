@@ -15,7 +15,7 @@ unsigned __wrap_foo(unsigned arg0, unsigned arg1) {
     arg0++;
     arg1++;
     printf("calling real foo(%u,%u)\n", arg0,arg1);
-    unsigned ret = __real_foo(arg0,arg1);
+    unsigned ret = foo(arg0,arg1);
     printf("returning from wrap_foo\n");
     return ret;
 }
@@ -23,7 +23,7 @@ unsigned __wrap_foo(unsigned arg0, unsigned arg1) {
 int main(void) {
     unsigned a0 = 1, a1 = 2;
     printf("about to call foo(%d,%d)\n", a0,a1);
-    unsigned ret = foo(a0,a1);
+    unsigned ret = __wrap_foo(a0,a1);
     printf("returned  %u\n", ret);
     return 0;
 }

@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "get-code.h": "c",
+        "fake-pi.h": "c",
+        "stdlib.h": "c",
+        "stdio.h": "c",
+        "fake-random.h": "c",
+        "tape.h": "c",
+        "rpi.h": "c",
+        "trace.h": "c"
+    }
+}
