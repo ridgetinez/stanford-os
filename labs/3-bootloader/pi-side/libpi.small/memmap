@@ -12,7 +12,7 @@ SECTIONS
     .bss : {
         __bss_start__ = .;
         *(.bss*)
-	*(COMMON)
+	    *(COMMON)
         . = ALIGN(8);
         __bss_end__ = .;
 	. = ALIGN(8);
