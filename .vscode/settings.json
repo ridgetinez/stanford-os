@@ -8,6 +8,13 @@
         "tape.h": "c",
         "rpi.h": "c",
         "trace.h": "c",
-        "va-printk.h": "c"
+        "va-printk.h": "c",
+        "cstdlib": "c",
+        "libunix.h": "c",
+        "assert.h": "c",
+        "staff-libunix.h": "c",
+        "simple-boot.h": "c",
+        "simple-boot-defs.h": "c",
+        "staff-crc32.h": "c"
     }
 }

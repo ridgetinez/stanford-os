@@ -45,16 +45,25 @@ void simple_boot(int fd, const uint8_t *buf, unsigned n) {
     } 
 
     // 1. reply to the GET_PROG_INFO
-    unimplemented();
+    uint32_t code_crc = crc32(buf,n);
+    trace_put32(fd, PUT_PROG_INFO);
+    trace_put32(fd, ARMBASE);
+    trace_put32(fd, n);
+    trace_put32(fd, code_crc);
 
     // 2. drain any extra GET_PROG_INFOS
-    unimplemented();
+    while((op = get_op(fd)) == GET_PROG_INFO) {
+        output("received GET_PROG_INFO: discarding.\n");
+        // no get_uint8 needed here as we're already aligned.
+    }
 
     // 3. check that we received a GET_CODE
-    unimplemented();
+    demand(op == GET_CODE, expected GET_CODE op from pi.);
+    ck_eq32(fd, "CRC mismatch", code_crc, get_op(fd));
 
     // 4. handle it: send a PUT_CODE + the code.
-    unimplemented();
+    trace_put32(fd, PUT_CODE);
+    for (int i = 0; i < n; i++) trace_put8(fd, buf[i]);
 
     // 5. Wait for BOOT_SUCCESS
     ck_eq32(fd, "BOOT_SUCCESS mismatch", BOOT_SUCCESS, get_op(fd));

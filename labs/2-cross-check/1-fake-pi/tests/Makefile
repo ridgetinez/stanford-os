@@ -14,7 +14,7 @@ MAKEFLAGS += --no-print-directory
 # do the first easy set
 # TEST_SRC := $(wildcard ./[01]-*.c) $(wildcard ./[34]-unix-*.c)
 # TEST_SRC := $(wildcard ./[015]-*.c) $(wildcard ./[34]-unix-*.c) $(CS140E_2021_PATH)/labs/1-gpio/code/1-blink.c
-TEST_SRC := $(wildcard ./[5]-*.c)
+TEST_SRC := $(wildcard ./[0123]-*.c)
 
 # make them local to this directory
 TESTS := $(patsubst %.c, %, $(TEST_SRC))

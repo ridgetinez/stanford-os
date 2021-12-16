@@ -4,6 +4,7 @@
 // protocol values shared between the pi and unix side.
 enum {
     ARMBASE=0x8000, // where program gets linked.  we could send this.
+    BOOTLOADER_START=0x200000,
 
     // the weird numbers are to try to help with debugging
     // when you drop a byte, flip them, corrupt one, etc.
