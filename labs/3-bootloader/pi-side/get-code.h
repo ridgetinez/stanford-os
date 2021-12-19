@@ -13,7 +13,7 @@
  * You do not need to modify this first chunk of code.
  */
 
-// note: these <boot_get8> calls will lock up 
+// note: these <boot_get8> calls will lock up
 // the machine if you lose data or it does not show up.
 uint32_t boot_get32(void) {
     uint32_t u = boot_get8();
@@ -29,7 +29,7 @@ void boot_put32(uint32_t u) {
     boot_put8((u >> 24) & 0xff);
 }
 
-// send a string <msg> to the unix side to print.  
+// send a string <msg> to the unix side to print.
 // message format:
 //  [PRINT_STRING, strlen(msg), <msg>]
 //
@@ -65,15 +65,15 @@ static void boot_putk(const char *msg) {
 
 // IMPLEMENT this routine.
 //
-// spins checking if there is data (<boot_has_data> 
-// returns 1): returns 1 when there is data, or 
+// spins checking if there is data (<boot_has_data>
+// returns 1): returns 1 when there is data, or
 // 0 if there was a timeout.
 //
 // you will use timer_get_usec() in libpi.small
-//   - look at libpi.small/timer.c for how to correctly 
+//   - look at libpi.small/timer.c for how to correctly
 //     wait for <n> microseconds given that the counter
 //     can overflow.
-static unsigned 
+static unsigned
 has_data_timeout(unsigned timeout) {
     unsigned ra, rb = timer_get_usec();
     while ((ra = timer_get_usec()) - rb < timeout) {
@@ -93,7 +93,7 @@ static void wait_for_data(unsigned usec_timeout) {
 //
 // Simple bootloader: put all of your code here.
 static inline long get_code(void) {
-    // 1. keep sending GET_PROG_INFO every 300ms until 
+    // 1. keep sending GET_PROG_INFO every 300ms until
     // there is data.
     wait_for_data(300 * 1000);
 
@@ -101,17 +101,17 @@ static inline long get_code(void) {
      * Add your code below: 2,3,4,5,6
      */
 
-    // 2. expect: [PUT_PROG_INFO, addr, nbytes, cksum] 
+    // 2. expect: [PUT_PROG_INFO, addr, nbytes, cksum]
     //    we echo cksum back in step 4 to help debugging.
     if (boot_get32() != PUT_PROG_INFO) {
         boot_putk("did not receive PUT_PROG_INFO");
         return 0; // how do I properly exit / restart bootloading?
     }
-    long addr   = boot_get32(), 
-         nbytes = boot_get32(), 
+    long addr   = boot_get32(),
+         nbytes = boot_get32(),
          cksum  = boot_get32();
-    
-    // 3. If the binary will collide with us, abort. 
+
+    // 3. If the binary will collide with us, abort.
     //    you can assume that code must be below where the booloader code
     //    gap starts.
     if (addr + nbytes > BOOTLOADER_START) {
@@ -130,7 +130,7 @@ static inline long get_code(void) {
         return 0; // how do I properly exit / restart bootloading?
     }
 
-    //  read each sent byte and write it starting at 
+    //  read each sent byte and write it starting at
     //  <addr> using PUT8
     //  why doesn't sending code exhaust the UART queue?
     //  how big is it?

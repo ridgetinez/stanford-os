@@ -1,0 +1,2 @@
+Mpi-cat	pi-cat.c	/^int main(int argc, char *argv[]) { $/
+stdin	pi-cat.c	/^\/\/  - stdin (file descriptor 0) has input$/
