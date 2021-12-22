@@ -1,4 +1,4 @@
-objs/uart-hex.d: libc/uart-hex.c \
+objs/uart.d: src/uart.c \
  /Users/adrianmartinez/projects/cs140e-21spr/libpi/include/rpi.h \
  /Users/adrianmartinez/projects/cs140e-21spr/libpi/include/gpio.h \
  /Users/adrianmartinez/projects/cs140e-21spr/libpi/include/../libc/libc-extra.h \

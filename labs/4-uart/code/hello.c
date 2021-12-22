@@ -12,5 +12,6 @@ void notmain(void) {
     dev_barrier();
 
     uart_init();
-    my_putk("hello world\n");
+    uart_putc(uart_getc());
+    my_putk("hello world awww yeah\n");
 }
