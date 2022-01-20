@@ -19,6 +19,12 @@ void timer_interrupt_init(unsigned ncycles) {
 
     // from valvers:
     //	 Enable the timer interrupt IRQ
+    // Q(amartinez): Why do we need to enable interrupts on the processor
+    // and then within each CSPR?
+    // A(amartinez): Turning it off in the CSPR is a fast way to disable
+    // interrupts for only the current running context. Turning it off here
+    // will turn it off for _all_ running contexts. We probably want controls
+    // more granular than that.
     PUT32(Enable_Basic_IRQs, RPI_BASIC_ARM_TIMER_IRQ);
 
     /* Setup the system timer interrupt */
@@ -31,7 +37,7 @@ void timer_interrupt_init(unsigned ncycles) {
             RPI_ARMTIMER_CTRL_32BIT |
             RPI_ARMTIMER_CTRL_ENABLE |
             RPI_ARMTIMER_CTRL_INT_ENABLE |
-            RPI_ARMTIMER_CTRL_PRESCALE_256);
+            RPI_ARMTIMER_CTRL_PRESCALE_256);  // what does prescale do again?
 #else
     // example of how to use a structure instead.
     // structures often be better if you are doing a 

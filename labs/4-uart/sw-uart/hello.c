@@ -4,7 +4,7 @@
 
 void notmain(void) {
     // strictly speaking: don't need this.
-    uart_init();
+    // uart_init();
 
     // use pin 20 for tx, 21 for rx
     sw_uart_t u = sw_uart_init(20,21, 115200);

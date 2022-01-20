@@ -18,11 +18,14 @@ void interrupt_vector(unsigned pc) {
 
     // if this isn't true, could be a GPU interrupt (as discussed in Broadcom):
     // just return.  [confusing, since we didn't enable!]
+    // Note(amartinez): An example of asserting conditions you know should be true.
+    // It's more common in operating systems code than in application code.
     if((pending & RPI_BASIC_ARM_TIMER_IRQ) == 0)
         return;
 
     // Checkoff: add a check to make sure we have a timer interrupt
     // use p 113,114 of broadcom.
+    // This was already done for us above :P
 
     /* 
      * Clear the ARM Timer interrupt - it's the only interrupt we have
@@ -63,10 +66,17 @@ void notmain() {
 
     printk("setting up timer interrupts\n");
     // Q: if you change 0x100?
+    // smaller => interrupts are more frequent
+    // larger  => less frequent
+    // Setting to 0x1000 gives me ~1s timer
+    // How to reason about this?
     timer_interrupt_init(0x100);
 
     printk("gonna enable ints globally!\n");
     // Q: what happens (&why) if you don't do?
+    // A: Clear the interrupt bit within the CPSR.
+    //    If you don't do this, it's not guaranteed
+    //    that ready IRQs will generate exceptions.
     system_enable_interrupts();
     printk("enabled!\n");
 
@@ -79,8 +89,10 @@ void notmain() {
 #   define N 20
     while(cnt < N) {
         // Q: if you comment this out?  why do #'s change?
-        printk("iter=%d: cnt = %d, time between interrupts = %d usec (%x)\n", 
-                                    iter,cnt, period,period);
+        // A: Total number of iterations go up as you don't have a print per loop
+        //    which takes a "long" time per iteration.
+        // printk("iter=%d: cnt = %d, time between interrupts = %d usec (%x)\n", 
+                                    // iter,cnt, period,period);
         iter++;
     }
 

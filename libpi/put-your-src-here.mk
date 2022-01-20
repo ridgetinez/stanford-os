@@ -8,10 +8,10 @@ YOUR_ASM =
 # put the path to any .c files
 YOUR_SRC = src/hello.c \
            src/gpio.c \
-        #    src/uart.c
+           src/uart.c
 
 # these are initial .o's we give you: to use your own, remove them
 # and add yours (to YOUR_OBJS)
-STAFF_OBJS= staff-objs/uart.o      
+# STAFF_OBJS= staff-objs/uart.o      
             # staff-objs/gpio.o       \
             # staff-objs/gpio-pud.o 

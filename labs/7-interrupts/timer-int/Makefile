@@ -45,7 +45,7 @@ endif
 	$(OCP) $*.elf -O binary $*.bin
 
 run: $(NAME).bin
-	my-install $(TTYUSB) timer.bin
+	pi-install $(TTYUSB) timer.bin
 
 tags: 
 	ctags *.[chSs] $(LPP)/*/*.[Sch] $(LPP)/*.[chSs]

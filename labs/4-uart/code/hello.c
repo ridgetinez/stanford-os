@@ -12,6 +12,13 @@ void notmain(void) {
     dev_barrier();
 
     uart_init();
-    uart_putc(uart_getc());
-    my_putk("hello world awww yeah\n");
+
+    my_putk(" hello world awww yeah\n");
+    while (1) {
+        while (uart_has_data()) {
+            char c = uart_getc();
+            if (c == '*') return;
+            uart_putc(c);
+        }
+    }
 }

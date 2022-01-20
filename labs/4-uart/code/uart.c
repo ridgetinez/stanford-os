@@ -165,64 +165,6 @@ typedef struct muart_registers {
 // TODO(amartinez): Calling init will set this global variable
 static muart_registers_t *uart_registers;
 
-// helper functions
-int uart_tx_is_idle(void) {
-    uart_registers = (muart_registers_t *)(aux_start);
-    unsigned v = GET32((unsigned) &uart_registers->statreg);
-    statreg_t *statreg = (statreg_t *) &v;
-	return statreg->stat_tx_idle;
-}
-
-void uart_set_tx(int set) {
-    uart_registers = (muart_registers_t *)(aux_start);
-    unsigned v = GET32((unsigned) &uart_registers->cntlreg);
-    cntlreg_t *cntlreg = (cntlreg_t *) &v;
-    cntlreg->cntl_tx_enable = set;
-    PUT32((unsigned) &uart_registers->cntlreg, *((unsigned *) cntlreg));
-}
-
-void uart_set_rx(int set) {
-    uart_registers = (muart_registers_t *)(aux_start);
-    unsigned v = GET32((unsigned) &uart_registers->cntlreg);
-    cntlreg_t *cntlreg = (cntlreg_t *) &v;
-    cntlreg->cntl_rx_enable = set;
-    PUT32((unsigned) &uart_registers->cntlreg, *((unsigned *) cntlreg));
-}
-
-void uart_set_tx_interrupt(int set) {
-    uart_registers = (muart_registers_t *)(aux_start);
-    unsigned v = GET32((unsigned) &uart_registers->ierreg);
-    ierreg_t *ierreg = (ierreg_t *) &v;
-    ierreg->ier_tx_interrupt = set;
-    PUT32((unsigned) &uart_registers->ierreg, *((unsigned *) ierreg));
-}
-
-void uart_set_rx_interrupt(int set) {
-    uart_registers = (muart_registers_t *)(aux_start);
-    unsigned v = GET32((unsigned) &uart_registers->ierreg);
-    ierreg_t *ierreg = (ierreg_t *) &v;
-    ierreg->ier_rx_interrupt = set;
-    PUT32((unsigned) &uart_registers->ierreg, *((unsigned *) ierreg));
-}
-
-void uart_set_baudrate(int baudrate) {
-    uart_registers = (muart_registers_t *)(aux_start);
-    unsigned v = GET32((unsigned) &uart_registers->baudreg);
-    baudreg_t *baudreg = (baudreg_t *) &v;
-    baudreg->baud_rate = baudrate;
-    PUT32((unsigned) &uart_registers->baudreg, *((unsigned *) baudreg));
-}
-
-// TODO: turn this GET32 -> PUT32 into a macro
-// set_uart_reg(reg, field, val)
-void uart_set_8n1(void) {
-    uart_registers = (muart_registers_t *)(aux_start);
-    unsigned v = GET32((unsigned) &uart_registers->lcrreg);
-    lcrreg_t *lcrreg = (lcrreg_t *) &v;
-    lcrreg->lcr_data_size = 1;
-    PUT32((unsigned) &uart_registers->lcrreg, *((unsigned *) lcrreg));
-}
-
 // called first to setup uart to 8n1 115200  baud,
 // no interrupts.
 //  - you will need memory barriers, use <dev_barrier()>

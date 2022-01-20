@@ -2,12 +2,17 @@
 
 // of all the code/data in a pi binary file.
 extern char __heap_start__;
+static void *alloc_start;
+static void *alloc_top;
 
 // track if initialized.
 static int init_p;
 
+
 // this is the minimum alignment: must always
 // roundup to at least sizeof(union align)
+// TODO: Why use union over double, generic pointer, and function pointer?
+//       Are they not guaranteed to be the same size?
 union align {
         double d;
         void *p;
@@ -49,7 +54,9 @@ static inline unsigned roundup(unsigned x, unsigned n) {
 void *kmalloc(unsigned nbytes) {
     assert(nbytes);
     demand(init_p, calling before initialized);
-    unimplemented();
+    void *ret = alloc_top;
+    alloc_top += roundup(nbytes, 4);
+    return ret;
 }
 
 /*
@@ -60,10 +67,13 @@ void *kmalloc_aligned(unsigned nbytes, unsigned alignment) {
     assert(nbytes);
     demand(init_p, calling before initialized);
     demand(is_pow2(alignment), assuming power of two);
-
-    if(alignment <= 4)
+    if (alignment <= 4) {
         return kmalloc(nbytes);
-    unimplemented();
+    }
+    // fragment a bit, skip alloc_top to next alignment
+    alloc_top = roundup(alloc_top, alignment);
+    return kmalloc(nbytes);
+    // alloc_top = (unsigned)(ret) + roundup(nbytes, alignment);
 }
 
 /*
@@ -77,8 +87,7 @@ void *kmalloc_aligned(unsigned nbytes, unsigned alignment) {
 void kmalloc_init(void) {
     if(init_p)
         return;
-    init_p = 1;
-    unimplemented();
+    kmalloc_init_set_start(__heap_start__);
 }
 
 /*
@@ -88,7 +97,9 @@ void kmalloc_init(void) {
 void kmalloc_init_set_start(unsigned _addr) {
     demand(!init_p, already initialized);
     init_p = 1;
-    unimplemented();
+    alloc_start = (void *) _addr;
+    alloc_top = (void *) _addr;
+    demand(is_aligned_ptr(alloc_top, sizeof(union align)), ensure aligned to union align);
 }
 
 
@@ -97,7 +108,7 @@ void kmalloc_init_set_start(unsigned _addr) {
  * pointer back to the beginning.
  */
 void kfree_all(void) {
-    unimplemented();
+    alloc_top = alloc_start;
 }
 
 // return pointer to the first free byte.
@@ -106,5 +117,5 @@ void kfree_all(void) {
 //    assert(<addr> < kmalloc_heap_ptr());
 // 
 void *kmalloc_heap_ptr(void) {
-    unimplemented();
+    return alloc_start;
 }

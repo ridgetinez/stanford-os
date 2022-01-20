@@ -22,6 +22,7 @@ void int_init(void) {
     unsigned *dst = (void*)RPI_VECTOR_START,
                  *src = &_interrupt_table,
                  n = &_interrupt_table_end - src;
+    // TODO(amartinez): print out dst, src, &_interrupt_table_end and n
     for(int i = 0; i < n; i++)
         dst[i] = src[i];
 }
@@ -33,6 +34,9 @@ void fast_interrupt_vector(unsigned pc) {
 }
 
 // this is used for syscalls.
+// interrupts-asm.S handles the normal interrupt exception type
+// with a proper exception handler. These handlers are ones we'll
+// deal with in future labs (e.g. maybe page faults first start here?)
 void software_interrupt_vector(unsigned pc) {
 	UNHANDLED("soft interrupt", pc);
 }

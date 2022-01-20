@@ -12,7 +12,7 @@
 # We seperate this out to hopefully clean up the various makefiles: they worry
 # about making binaries, this one worries about testing.
 
-INSTALL = my-install  
+INSTALL = pi-install
 
 # shut up "ntering/leaving"
 MAKEFLAGS += --no-print-directory
