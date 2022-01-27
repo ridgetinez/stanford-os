@@ -14,19 +14,21 @@ void interrupt_vector(unsigned pc) {
 
 // pc should point to the system call instruction.
 //      can see the encoding on a3-29:  lower 24 bits hold the encoding.
+//      http://cs107e.github.io/readings/armisa.pdf
 // r0 = the first argument passed to the system call.
 int syscall_vector(unsigned pc, uint32_t r0) {
     uint32_t inst, sys_num;
 
     // figure out the instruction and the system call number.
-    unimplemented();
-
+    inst = *(unsigned *)pc;
+    sys_num = inst & ((1 << 24) - 1);
+    printk("inst: %x, sys_num=%x, arg: %s \n", inst, sys_num, (const char*)r0);
     switch(sys_num) {
     case 1: 
             printk("syscall: <%s>\n", (const char *)r0); 
             return 0;
     default: 
-            printk("illegal system call = %d!\n", sys_num);
+            printk("illegal system call = %x!\n", sys_num);
             return -1;
     }
 }
@@ -47,7 +49,7 @@ void notmain() {
     asm volatile ("mov %0, sp" : "=r"(sp)); 
     printk("current stackptr = %x\n", sp);
 
-    clean_reboot();
+    // clean_reboot();
 
 
     printk("about to install handlers\n");

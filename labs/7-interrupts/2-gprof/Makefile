@@ -1,7 +1,7 @@
 NAME = gprof
 
 # define this if you need to give the device for your pi
-TTYUSB = 
+TTYUSB =
 
 OBJS := $(NAME).o interrupts-asm.o interrupts-c.o  timer-interrupt.o
 
@@ -47,7 +47,7 @@ endif
 	$(OCP) $*.elf -O binary $*.bin
 
 run: $(NAME).bin
-	my-install $(TTYUSB) $(NAME).bin
+	pi-install $(TTYUSB) $(NAME).bin
 
 tags: 
 	ctags *.[chSs] $(LPP)/*.[ch] $(LPP)/*.[chSs]

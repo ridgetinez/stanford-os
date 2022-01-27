@@ -8,7 +8,8 @@ YOUR_ASM =
 # put the path to any .c files
 YOUR_SRC = src/hello.c \
            src/gpio.c \
-           src/uart.c
+           src/uart.c \
+           src/kmalloc.c
 
 # these are initial .o's we give you: to use your own, remove them
 # and add yours (to YOUR_OBJS)

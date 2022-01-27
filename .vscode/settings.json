@@ -17,6 +17,7 @@
         "simple-boot-defs.h": "c",
         "staff-crc32.h": "c",
         "helper-macros.h": "c",
-        "rpi-interrupts.h": "c"
+        "rpi-interrupts.h": "c",
+        "timer-interrupt.h": "c"
     }
 }

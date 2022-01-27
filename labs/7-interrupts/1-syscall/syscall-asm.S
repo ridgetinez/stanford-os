@@ -4,7 +4,7 @@ MK_FN(syscall_hello)
     @ we are already at system level: running this will trash
     @ the lr, so we need to save it.
     push {lr}
-    swi 1
+    swi 1 @ populates r0
     pop {lr}
     bx lr
 

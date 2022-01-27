@@ -17,23 +17,43 @@
  *	- gprof_dump will print out all samples.
  */
 
+extern char __code_start__, __code_end__;
+// address of the start of the code section and
+// the number of instructions in the code section.
+static unsigned code_base, code_len;
+static volatile unsigned *samples;
+
 // allocate table.
 //    few lines of code
 static unsigned gprof_init(void) {
-    unimplemented();
+    code_base = (unsigned) &__code_start__;
+    code_len  = (&__code_end__-&__code_start__)/4;
+    printk("start = %x len = %d\n", code_base, code_len);
+    samples   = (unsigned *) kmalloc(code_len);
+    printk("samples = %x\n", samples); // samples is 0x0, not heap_start
+    for (int i = 0; i < code_len; i++) samples[i] = 0;
+    return 0;
 }
 
 // increment histogram associated w/ pc.
 //    few lines of code
 static void gprof_inc(unsigned pc) {
-    unimplemented();
+    unsigned index = (pc-code_base) / 4;
+    samples[index]++;
 }
 
 // print out all samples whose count > min_val
 //
 // make sure sampling does not pick this code up!
 static void gprof_dump(unsigned min_val) {
-    unimplemented();
+    // TODO: disable interrupts
+    // unimplemented();
+    for (int i = 0; i < code_len; i++) {
+        if (samples[i] > min_val) {
+            printk("%x: %d\n", code_base+i*4, samples[i]); 
+        }
+    }
+    // TODO: enable interrupts
 }
 
 

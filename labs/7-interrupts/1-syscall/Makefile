@@ -45,7 +45,7 @@ endif
 	$(OCP) $*.elf -O binary $*.bin
 
 run: $(NAME).bin
-	my-install $(TTYUSB) $(NAME).bin
+	pi-install $(TTYUSB) $(NAME).bin
 
 tags: 
 	ctags *.[chSs] $(LPP)/*.[ch] $(LPP)/*.[chSs]

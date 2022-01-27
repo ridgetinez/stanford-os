@@ -71,7 +71,7 @@ void *kmalloc_aligned(unsigned nbytes, unsigned alignment) {
         return kmalloc(nbytes);
     }
     // fragment a bit, skip alloc_top to next alignment
-    alloc_top = roundup(alloc_top, alignment);
+    alloc_top = (void*) roundup((unsigned)alloc_top, alignment);
     return kmalloc(nbytes);
     // alloc_top = (unsigned)(ret) + roundup(nbytes, alignment);
 }
@@ -87,7 +87,7 @@ void *kmalloc_aligned(unsigned nbytes, unsigned alignment) {
 void kmalloc_init(void) {
     if(init_p)
         return;
-    kmalloc_init_set_start(&__heap_start__);
+    kmalloc_init_set_start((unsigned) &__heap_start__);
 }
 
 /*
